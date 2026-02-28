@@ -8,6 +8,18 @@ tags: ["개인 프로젝트"]
 
 > IELTS Writing Task 2 에세이에 대해 AI 기반 예상 점수와 피드백을 제공하는 웹 서비스를 만들게 된 배경 이야기
 
+<a href="https://github.com/limJhyeok/Essay-Feedback-Writer" target="_blank" style="text-decoration:none;">
+  <div style="
+      border:1px solid #e1e4e8;
+      border-radius:10px;
+      padding:16px;
+      transition:0.2s;
+  ">
+    <strong>🔗 Essay Feedback Writer</strong><br/>
+    GitHub 링크<br/>
+  </div>
+</a>
+
 ## 1. 시작하게 된 계기
 
 ### 못다 이룬 과제: Essay 자동 평가 AI
@@ -98,7 +110,7 @@ IELTS Writing Task 2는
 ### 데이터 접근성이라는 현실적인 조건
 
 좋은 평가 체계가 있어도 데이터가 없다면 프로젝트는 시작할 수 없습니다.
-다행히 공개된 IELTS 에세이 데이터셋을 확보할 수 있었고, 이를 기반으로 실험을 진행했습니다.
+다행히 HuggingFace에 공개된 IELTS 에세이 데이터셋을 확보할 수 있었고, 이를 기반으로 실험을 진행했습니다.
 
 다만 원본 데이터를 그대로 사용할 수는 없었습니다.
 
@@ -108,6 +120,7 @@ IELTS Writing Task 2는
 * 품질 기준에 맞지 않는 샘플 필터링
 
 과정을 거쳐 최종적으로 **7,919개의 정제된 데이터셋**을 구축했습니다.
+이와 관련한 작업은 기회가 된다면 다른 글로 풀어보도록 하겠습니다.
 
 ## 6. 이 프로젝트가 가지는 의미
 
@@ -117,3 +130,5 @@ Essay Feedback Writer는 개인적인 아쉬움에서 출발한 프로젝트였�
 AI 기반 에세이 평가는
 시험 자동화를 위한 기술이 아니라,
 학습자가 스스로 사고하고 글쓰기 능력을 개선하도록 돕는 **학습 보조 도구**가 될 수 있다고 생각합니다.
+
+향후에는 IELTS Writing Task 2뿐 아니라 수학 논술, 대학 논술 등 다양한 에세이 평가 영역으로 확장할 예정입니다.
