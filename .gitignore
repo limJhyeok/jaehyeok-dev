@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+dist/
+.vercel/
+.next/
+
+# private 블로그 글
+content/private/*
+
+# claude code log
+.claude/logs/
+# claude code playwright mcp screenshot storage
+.playwright-mcp/

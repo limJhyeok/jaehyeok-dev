@@ -1,0 +1,54 @@
+{
+  "name": "limjhyeok-blog",
+  "version": "1.0.0",
+  "description": "LimJhyeok's personal blog with analytics and comments",
+  "main": "api/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node api/index.js",
+    "start": "node api/index.js",
+    "prepare": "husky",
+    "lint": "eslint api/ public/scripts/",
+    "lint:css": "stylelint \"public/styles/**/*.css\""
+  },
+  "keywords": [
+    "blog",
+    "ai",
+    "engineer"
+  ],
+  "author": "LimJhyeok",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/kv": "^0.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.4.0"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs}": [
+      "eslint --cache --fix"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "prettier --write"
+    ]
+  }
+}
