@@ -19,7 +19,7 @@ This is a single-page blog with a Node.js/Express backend deployed on Vercel.
 api/
   index.js          # Express app — all API routes, CORS, rate limiting
   lib/
-    kv.js           # KV abstraction: MemoryKV (local) / @vercel/kv (prod)
+    kv.js           # KV abstraction: MemoryKV (local) / @upstash/redis (prod)
     posts.js        # getAllPosts(), getPost(id) — reads content/posts/*.md
     frontmatter.js  # parseFrontmatter(raw) → { meta, content }
 content/
@@ -48,7 +48,7 @@ There is no client-side router. The frontend toggles between two views:
 
 `api/lib/kv.js` checks `process.env.VERCEL === '1'`:
 - **Local**: in-memory `MemoryKV` (data lost on restart, no setup needed)
-- **Production**: `@vercel/kv` (Redis, requires env vars)
+- **Production**: `@upstash/redis` (Redis, requires env vars)
 
 KV keys: `views:{post_id}:{YYYY-MM-DD}`, `views:{post_id}:total`, `comments:{post_id}`
 
@@ -76,6 +76,6 @@ summary: "Optional. If set, used as excerpt in list view instead of auto-generat
 ### Environment variables
 
 See `.env.example`. Required for production:
-- `KV_URL`, `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `KV_REST_API_READ_ONLY_TOKEN` — Vercel KV
+- `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `KV_REST_API_READ_ONLY_TOKEN`, `KV_URL` — Vercel Storage(Upstash Redis)가 자동 주입
 - `ADMIN_PASSWORD` — comment admin auth
 - `ALLOWED_ORIGINS` — CORS whitelist (e.g. `https://your-blog.vercel.app`)

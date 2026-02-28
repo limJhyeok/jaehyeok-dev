@@ -15,3 +15,7 @@ content/private/*
 .claude/logs/
 # claude code playwright mcp screenshot storage
 .playwright-mcp/
+
+# vercel
+.vercel
+.env*.local

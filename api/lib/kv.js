@@ -24,13 +24,16 @@ class MemoryKV {
 }
 
 /**
- * Production에서는 Vercel KV 사용
+ * Production에서는 Upstash Redis 사용
  */
 let kv;
 
 if (isProd) {
-  const mod = await import('@vercel/kv');
-  kv = mod.kv;
+  const { Redis } = await import('@upstash/redis');
+  kv = new Redis({
+    url: process.env.KV_REST_API_URL,
+    token: process.env.KV_REST_API_TOKEN,
+  });
 } else {
   console.log('🟡 Using Memory KV (local dev)');
   kv = new MemoryKV();
