@@ -184,6 +184,7 @@ async function showPostDetail(postId, refresh = false) {
         ${html}
       </div>
     `;
+    contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
     renderMathInElement(contentEl, {
       delimiters: [
         { left: '$$', right: '$$', display: true },

@@ -356,6 +356,34 @@ main {
   border: 1px solid var(--light-border);
 }
 
+/* Table styles */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.post-content th,
+.post-content td {
+  border: 1px solid var(--light-border);
+  padding: 0.6rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.post-content th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.post-content tr:nth-child(even) td {
+  background-color: #fafafa;
+}
+
 /* KaTeX 수식 */
 .katex {
   font-size: 1.1em;
@@ -459,6 +487,7 @@ main {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
