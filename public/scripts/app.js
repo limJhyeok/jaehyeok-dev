@@ -36,25 +36,69 @@ async function fetchAnalytics(postId) {
   }
 }
 
-  async function loadPosts() {
+const POSTS_CACHE_KEY = 'posts_cache';
+
+function getCachedPosts() {
+  try {
+    const raw = localStorage.getItem(POSTS_CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw).data;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedPosts(data) {
+  try {
+    localStorage.setItem(POSTS_CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+  } catch {
+    // localStorage unavailable (e.g. private browsing) — silently skip caching
+  }
+}
+
+function showSkeleton() {
+  const card = `
+    <div class="skeleton-card">
+      <div class="skeleton-line" style="width:60%;height:1.25rem;margin-bottom:0.5rem;"></div>
+      <div class="skeleton-line" style="width:25%;height:0.875rem;margin-bottom:1rem;"></div>
+      <div class="skeleton-line" style="width:100%;height:0.9rem;margin-bottom:0.5rem;"></div>
+      <div class="skeleton-line" style="width:80%;height:0.9rem;"></div>
+    </div>`;
+  document.getElementById('posts-list').innerHTML =
+    '<div class="loading-spinner"></div>' + card.repeat(3);
+}
+
+async function loadPosts() {
+  const cached = getCachedPosts();
+  if (cached) {
+    posts = cached;
+    renderPosts();
+  } else {
+    showSkeleton();
+  }
+
   try {
     const response = await fetch(`${API_BASE}/posts`);
     const data = await response.json();
     posts = data.map(post => ({
-      id: post.id,                 // ← 파일명 (ex: 2025-03-01-new-post.md)
+      id: post.id,
       title: post.title,
       date: post.date,
       category: post.category,
       tags: post.tags || [],
       excerpt: post.excerpt || '',
     }));
-
+    setCachedPosts(posts);
     renderPosts();
   } catch (err) {
     console.error('Failed to load posts:', err);
+    if (!cached) {
+      document.getElementById('posts-list').innerHTML =
+        '<div class="empty-state"><p>글을 불러오지 못했습니다. 잠시 후 새로고침 해주세요.</p></div>';
+    }
   }
 }
-  
+
 
 
 // 글 렌더링
@@ -112,9 +156,8 @@ function renderPosts() {
     });
   });
 }
-  renderPosts();
 
-  async function showPostDetail(postId, refresh = false) {
+async function showPostDetail(postId, refresh = false) {
   try {
     // Markdown 원문 가져오기
     const res = await fetch(`${API_BASE}/posts/${postId}`);

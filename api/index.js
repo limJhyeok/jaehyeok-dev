@@ -103,6 +103,7 @@ app.get('/api/analytics/:post_id', async (req, res) => {
 
 // posting된 글 불러오기
 app.get('/api/posts', async (_, res) => {
+  res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
   res.json(await getAllPosts());
 });
 
