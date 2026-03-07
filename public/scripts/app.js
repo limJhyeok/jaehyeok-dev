@@ -10,6 +10,32 @@ marked.setOptions({
 });
 
 const renderer = new marked.Renderer();
+
+let demoCounter = 0;
+
+const originalCode = renderer.code.bind(renderer);
+renderer.code = function ({ text, lang }) {
+  if (lang === 'html-demo') {
+    const id = `demo-${demoCounter++}`;
+    const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const srcDoc = text.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    return `
+      <div class="demo-block" data-demo-id="${id}">
+        <div class="demo-tabs">
+          <button class="demo-tab active" data-target="code">Code</button>
+          <button class="demo-tab" data-target="result">Result</button>
+        </div>
+        <div class="demo-panel demo-panel-code active">
+          <pre><code class="language-html">${escaped}</code></pre>
+        </div>
+        <div class="demo-panel demo-panel-result">
+          <iframe sandbox="allow-scripts" data-srcdoc="${srcDoc}"></iframe>
+        </div>
+      </div>`;
+  }
+  return originalCode({ text, lang });
+};
+
 marked.use({ renderer });
 
 // API 함수들
@@ -171,6 +197,7 @@ async function showPostDetail(postId, refresh = false) {
 
     const analytics = await fetchAnalytics(postId);
 
+    demoCounter = 0;
     const html = marked.parse(content);
 
     contentEl.innerHTML = `
@@ -184,6 +211,26 @@ async function showPostDetail(postId, refresh = false) {
         ${html}
       </div>
     `;
+    contentEl.querySelectorAll('.demo-block').forEach(block => {
+      block.querySelectorAll('.demo-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.target;
+          block.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+          block.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          block.querySelector(`.demo-panel-${target}`).classList.add('active');
+
+          if (target === 'result') {
+            const iframe = block.querySelector('iframe[data-srcdoc]');
+            if (iframe) {
+              iframe.srcdoc = iframe.dataset.srcdoc;
+              iframe.removeAttribute('data-srcdoc');
+            }
+          }
+        });
+      });
+    });
+
     contentEl.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el));
     renderMathInElement(contentEl, {
       delimiters: [

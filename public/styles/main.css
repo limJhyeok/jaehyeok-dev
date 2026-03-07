@@ -384,6 +384,64 @@ main {
   background-color: #fafafa;
 }
 
+/* Demo Block (html-demo tabs) */
+.demo-block {
+  border: 1px solid var(--light-border);
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.demo-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--light-border);
+  background-color: #f9f9f9;
+}
+
+.demo-tab {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.demo-tab:hover {
+  color: var(--primary-color);
+}
+
+.demo-tab.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+.demo-panel {
+  display: none;
+}
+
+.demo-panel.active {
+  display: block;
+}
+
+.demo-panel-code pre {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.demo-panel-result iframe {
+  width: 100%;
+  min-height: 200px;
+  border: none;
+  display: block;
+}
+
 /* KaTeX 수식 */
 .katex {
   font-size: 1.1em;
